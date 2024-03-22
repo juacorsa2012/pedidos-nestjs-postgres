@@ -55,6 +55,23 @@ export class ProductoService {
     }
   }
 
+  async seed(n: number) {
+    const productos: Partial<Producto>[] = []
+    
+    for (let i = 0; i < n; i++) {
+      const producto = { "nombre": `Producto ` + i }
+      productos.push(producto)
+    }    
+
+    try {
+      await this.productoRepository.delete({})
+      await this.productoRepository.save(productos)
+    }
+    catch (error) {
+      this.handleException(error)  
+    }
+  }
+
   private handleException(error: any) {
     if (error.code === "23505")
       throw new BadRequestException(Message.PRODUCTO_YA_EXISTE)

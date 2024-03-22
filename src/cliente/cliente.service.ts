@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
-import { Cliente } from './entities/cliente.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreateClienteDto } from './dto/create-cliente.dto'
@@ -7,6 +6,8 @@ import { PaginacionDto } from 'src/common/dtos/paginacion.dto'
 import { UpdateClienteDto } from './dto/update-cliente.dto'
 import { Message } from 'src/config/messages'
 import { Constant } from 'src/config/constants'
+import { Cliente } from './entities/cliente.entity'
+
 
 @Injectable()
 export class ClienteService {
@@ -52,6 +53,23 @@ export class ClienteService {
       return cliente      
     } catch (error) {
       this.handleException(error)
+    }
+  }
+
+  async seed(n: number) {
+    const clientes: Partial<Cliente>[] = []
+    
+    for (let i = 0; i <= n; i++) {
+      const cliente = { "nombre": `Cliente ` + i }
+      clientes.push(cliente)
+    }    
+
+    try {
+      await this.clienteRepository.delete({})
+      await this.clienteRepository.save(clientes)     
+    }
+    catch (error) {
+      this.handleException(error)  
     }
   }
 

@@ -12,6 +12,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,      
       forbidNonWhitelisted: true,
+      transform: true
     })
   )
   await app.listen(parseInt(process.env.SERVER_PORT, 10) || 3000)
@@ -19,5 +20,5 @@ async function bootstrap() {
 
 bootstrap()
 
-// yarn migration:generate -- database\migrations\create-table-proveedores
+// yarn migration:generate -- database\migrations\create-table-pedidos
 

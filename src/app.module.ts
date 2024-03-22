@@ -8,6 +8,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { ProductoModule } from './producto/producto.module';
 import { ProveedorModule } from './proveedor/proveedor.module';
 import { CommonModule } from './common/common.module';
+import { PedidoModule } from './pedido/pedido.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { CommonModule } from './common/common.module';
     ClienteModule,
     ProductoModule,
     ProveedorModule,
-    CommonModule, 
+    CommonModule,
+    PedidoModule, 
     ],
   controllers: [AppController],
   providers: [AppService],

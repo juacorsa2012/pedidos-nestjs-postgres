@@ -55,6 +55,23 @@ export class ProveedorService {
     }
   }
 
+  async seed(n: number) {
+    const proveedores: Partial<Proveedor>[] = []
+    
+    for (let i = 0; i < n; i++) {
+      const proveedor = { "nombre": `Proveedor ` + i }
+      proveedores.push(proveedor)
+    }    
+
+    try {
+      await this.proveedorRepository.delete({})
+      await this.proveedorRepository.save(proveedores)
+    }
+    catch (error) {
+      this.handleException(error)  
+    }
+  }
+
   private handleException(error: any) {
     if (error.code === "23505")
       throw new BadRequestException(Message.PROVEEDOR_YA_EXISTE)

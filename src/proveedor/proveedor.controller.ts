@@ -1,15 +1,26 @@
 import { Response } from 'express'
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, Res } from '@nestjs/common';
 import { HttpResponseCreated, HttpResponseOk } from 'src/utils/response';
 import { CreateProveedorDto } from './dto/create-proveedor-dto';
 import { ProveedorService } from './proveedor.service';
 import { Message } from 'src/config/messages';
 import { PaginacionDto } from 'src/common/dtos/paginacion.dto';
 import { UpdateProveedorDto } from './dto/update-proveedor-dto';
+import { Constant } from 'src/config/constants';
 
 @Controller('proveedores')
 export class ProveedorController {
   constructor(private readonly proveedorService: ProveedorService) {}
+
+  @Get("seed/:n")
+  async seed(@Param("n", ParseIntPipe) n: number) {
+    await this.proveedorService.seed(n)
+    return {
+      status: Constant.SUCCESS,
+      statusCode: HttpStatus.OK,
+      message: `Se han insertado ${n} proveedores correctamente!!`
+    }
+  }
 
   @Get()
   async obtenerProveedores(@Res() res: Response, @Query() paginacionDto: PaginacionDto) {
