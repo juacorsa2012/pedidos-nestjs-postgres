@@ -19,3 +19,11 @@ export const HttpResponseCreated = (res: Response, data: any, message: string = 
     data,    
   })
 }
+
+export const HttpResponseBadRequest = (res: Response, message: string = "") => {
+  return res.status(HttpStatus.BAD_REQUEST).json({
+    statusCode: HttpStatus.BAD_REQUEST,
+    status: Constant.ERROR,
+    message,    
+  })
+}

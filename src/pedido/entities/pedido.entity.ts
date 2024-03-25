@@ -1,3 +1,4 @@
+import { IsIn } from "class-validator"
 import { Cliente } from "src/cliente/entities/cliente.entity"
 import { Producto } from "src/producto/entities/producto.entity"
 import { Proveedor } from "src/proveedor/entities/proveedor.entity"
@@ -45,7 +46,7 @@ export class Pedido {
   @Column("int", { nullable: true })
   parte: number
 
-  @Column({type: "enum", enum: EstadoPedido, default: EstadoPedido.PEDIDO })
+  @Column({type: "enum", enum: EstadoPedido, default: EstadoPedido.PEDIDO})
   estado: EstadoPedido
  
   @CreateDateColumn()
@@ -53,4 +54,14 @@ export class Pedido {
 
   @UpdateDateColumn()
   updated_at: Date
+  
+  @Column("int", { nullable: false })
+  public clienteId: number
+
+  @Column("int", { nullable: false })
+  public productoId: number
+
+  @Column("int", { nullable: false })
+  public proveedorId: number
+
 }
