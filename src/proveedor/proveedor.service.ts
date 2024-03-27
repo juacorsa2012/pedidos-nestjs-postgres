@@ -23,13 +23,17 @@ export class ProveedorService {
     }
   }
 
-  obtenerProveedores(paginacionDto: PaginacionDto) {
-    const { limite = Constant.LIMITE_PAGINACION_PROVEEDORES, offset = 0 } = paginacionDto
+  async obtenerProveedores(paginacionDto: PaginacionDto) {
+    const { limite = Constant.LIMITE_PAGINACION_PROVEEDORES, offset = 0, sort="nombre", order = "ASC" } = paginacionDto
 
-    return this.proveedorRepository.find({
+    const [proveedores, total] = await this.proveedorRepository.find({
       take: limite,
-      skip: offset
+      skip: offset,
+      order: { [sort]: order }
     })
+
+    const meta = { limit: limite, offset, sort, order, total }
+    return { proveedores, meta }
   }
 
   async obtenerProveedor(id: number) {
@@ -72,7 +76,7 @@ export class ProveedorService {
     }
   }
 
-  private handleException(error: any) {
+  private handleException(error: any): never {
     if (error.code === "23505")
       throw new BadRequestException(Message.PROVEEDOR_YA_EXISTE)
       

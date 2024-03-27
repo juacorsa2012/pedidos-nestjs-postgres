@@ -24,16 +24,14 @@ export class ClienteController {
 
   @Get()
   async obtenerClientes(@Res() res: Response, @Query() paginacionDto: PaginacionDto) {
-    const clientes = await this.clienteService.obtenerClientes(paginacionDto)    
-    HttpResponseOk(res, clientes)
+    const { clientes, meta } = await this.clienteService.obtenerClientes(paginacionDto)    
+    HttpResponseOk(res, clientes, meta)
   }
   
   @Get(":id")  
   async obtenerCliente(@Res() res: Response, @Param("id", ParseIntPipe) id: number) {
     const cliente = await this.clienteService.obtenerCliente(id)
-
     if (!cliente) throw new NotFoundException(`Cliente con id ${ id } no encontrado`)
-
     HttpResponseOk(res, cliente)
   }  
   

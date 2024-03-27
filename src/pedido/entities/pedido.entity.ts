@@ -1,7 +1,7 @@
-import { IsIn } from "class-validator"
-import { Cliente } from "src/cliente/entities/cliente.entity"
-import { Producto } from "src/producto/entities/producto.entity"
-import { Proveedor } from "src/proveedor/entities/proveedor.entity"
+import { Cliente } from "../../cliente/entities/cliente.entity"
+import { Constant } from "../../config/constants"
+import { Producto } from "../../producto/entities/producto.entity"
+import { Proveedor } from "../../proveedor/entities/proveedor.entity"
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
 export enum EstadoPedido {
@@ -25,16 +25,16 @@ export class Pedido {
   @ManyToOne(() => Proveedor, (proveedor) => proveedor.pedidos)
   proveedor: Proveedor
 
-  @Column("varchar", { length: 50, nullable: true })
+  @Column("varchar", { length: Constant.LONGITUD_MAXIMA_MODELO_PEDIDO, nullable: true })
   modelo: string
 
-  @Column("varchar", { length: 10, nullable: true })
+  @Column("varchar", { length: Constant.LONGITUD_MAXIMA_REFERENCIA_PEDIDO, nullable: true })
   referencia: string
 
-  @Column("varchar", { length: 10, nullable: true })
+  @Column("varchar", { length: Constant.LONGITUD_MAXIMA_OFERTA_PEDIDO, nullable: true })
   oferta: string
   
-  @Column("varchar", { length: 50, nullable: true })
+  @Column("varchar", { length: Constant.LONGITUD_MAXIMA_CONTRATO_MENOR_PEDIDO, nullable: true })
   contrato_menor: string  
   
   @Column("text", { nullable: true })
@@ -63,5 +63,4 @@ export class Pedido {
 
   @Column("int", { nullable: false })
   public proveedorId: number
-
 }

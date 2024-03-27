@@ -24,13 +24,17 @@ export class ClienteService {
     }
   }
 
-  obtenerClientes(paginacionDto: PaginacionDto) {
-    const { limite = Constant.LIMITE_PAGINACION_CLIENTES, offset = 0 } = paginacionDto
+  async obtenerClientes(paginacionDto: PaginacionDto) {
+    const { limite = Constant.LIMITE_PAGINACION_CLIENTES, offset = 0, sort="nombre", order = "ASC" } = paginacionDto
 
-    return this.clienteRepository.find({
+    const [clientes, total] = await this.clienteRepository.findAndCount({
       take: limite,
-      skip: offset
+      skip: offset,
+      order: { [sort]: order }
     })
+
+    const meta = { limit: limite, offset, sort, order, total }
+    return { clientes, meta }
   }
 
   async obtenerCliente(id: number) {
@@ -73,7 +77,7 @@ export class ClienteService {
     }
   }
 
-  private handleException(error: any) {
+  private handleException(error: any): never {
   if (error.code === "23505")
     throw new BadRequestException(Message.CLIENTE_YA_EXISTE)
     

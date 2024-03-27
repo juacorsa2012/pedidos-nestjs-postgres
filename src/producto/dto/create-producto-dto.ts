@@ -1,9 +1,10 @@
 import { IsString, MaxLength, MinLength } from "class-validator"
-import { Constant } from "src/config/constants"
+import { Constant } from "../../config/constants"
+import { Message } from "../../config/messages"
 
 export class CreateProductoDto {
-  @IsString({message: "El nombre del producto debe ser una cadena de texto."})
-  @MinLength(Constant.LONGITUD_MINIMA_NOMBRE_PRODUCTO, {message: "El nombre del producto debe tener al menos 3 caracteres."})
-  @MaxLength(Constant.LONGITUD_MAXIMA_NOMBRE_PRODUCTO, {message: "El nombre del producto no puede superar los 100 caracteres."})
-  nombre: string;
+  @IsString({message: Message.PRODUCTO_NOMBRE_CADENA_TEXTO})
+  @MinLength(Constant.LONGITUD_MINIMA_NOMBRE_PRODUCTO, {message: Message.PRODUCTO_NOMBRE_LONGITUD_MINIMA})
+  @MaxLength(Constant.LONGITUD_MAXIMA_NOMBRE_PRODUCTO, {message: Message.PRODUCTO_NOMBRE_LONGITUD_MAXIMA })
+  readonly nombre: string;
 }

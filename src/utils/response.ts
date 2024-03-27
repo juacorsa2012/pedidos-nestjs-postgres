@@ -2,12 +2,13 @@ import { HttpStatus } from '@nestjs/common'
 import { Response } from 'express'
 import { Constant } from 'src/config/constants'
 
-export const HttpResponseOk = (res: Response, data: any, message: string = "") => {
+export const HttpResponseOk = (res: Response, data: any, meta?: any, message: string = "") => {
   return res.status(HttpStatus.OK).json({
     statusCode: HttpStatus.OK,
     status: Constant.SUCCESS,    
     message,
-    data,    
+    data,
+    meta    
   })
 }
 

@@ -23,13 +23,17 @@ export class ProductoService {
     }
   }
 
-  obtenerProductos(paginacionDto: PaginacionDto) {
-    const { limite = Constant.LIMITE_PAGINACION_PRODUCTOS, offset = 0 } = paginacionDto
+  async obtenerProductos(paginacionDto: PaginacionDto) {
+    const { limite = Constant.LIMITE_PAGINACION_PRODUCTOS, offset = 0, sort="nombre", order = "ASC" } = paginacionDto
 
-    return this.productoRepository.find({
+    const [productos, total] = await this.productoRepository.findAndCount({
       take: limite,
-      skip: offset
-    })
+      skip: offset,
+      order: { [sort]: order }
+    })    
+    
+    const meta = { limit: limite, offset, sort, order, total }
+    return { productos, meta } 
   }
 
   async obtenerProducto(id: number) {
@@ -72,7 +76,7 @@ export class ProductoService {
     }
   }
 
-  private handleException(error: any) {
+  private handleException(error: any): never {
     if (error.code === "23505")
       throw new BadRequestException(Message.PRODUCTO_YA_EXISTE)
       

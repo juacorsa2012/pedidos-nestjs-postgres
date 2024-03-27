@@ -1,15 +1,16 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
-import { EstadoPedido, Pedido } from './entities/pedido.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { PaginacionDto } from 'src/common/dtos/paginacion.dto'
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common"
+import { EstadoPedido, Pedido } from "./entities/pedido.entity"
+import { InjectRepository } from "@nestjs/typeorm"
+import { Between, LessThan, Repository } from "typeorm"
+import { PaginacionDto } from "src/common/dtos/paginacion.dto"
 import { Constant } from "../config/constants"
-import { Message } from '../config/messages'
-import { CreatePedidoDto } from './dto/create-pedido.dto'
-import { ClienteService } from 'src/cliente/cliente.service'
-import { ProductoService } from 'src/producto/producto.service'
-import { ProveedorService } from 'src/proveedor/proveedor.service'
-import { UpdatePedidoDto } from './dto/update-pedido.dto'
+import { Message } from "../config/messages"
+import { CreatePedidoDto } from "./dto/create-pedido.dto"
+import { ClienteService } from "src/cliente/cliente.service"
+import { ProductoService } from "src/producto/producto.service"
+import { ProveedorService } from "src/proveedor/proveedor.service"
+import { UpdatePedidoDto } from "./dto/update-pedido.dto"
+import { PedidoQueryDto } from "./dto/pedido-query.dto"
 
 @Injectable()
 export class PedidoService {
@@ -21,9 +22,48 @@ export class PedidoService {
     private readonly productoService: ProductoService,
     private readonly proveedorService: ProveedorService) {}
 
-  obtenerPedidos(paginacionDto: PaginacionDto) {
-    const { limite = Constant.LIMITE_PAGINACION_PEDIDOS, offset = 0 } = paginacionDto
+  obtenerPedidos(pedidoQueryDto: PedidoQueryDto) {
+    let cliente_hasta = 99999
+    let cliente_desde = 1
+    let producto_hasta = 99999
+    let producto_desde = 1
+    let proveedor_hasta = 99999
+    let proveedor_desde = 1
+
+    const { 
+      limite = Constant.LIMITE_PAGINACION_PEDIDOS, 
+      offset = 0,
+      sort,
+      order,
+      estado = "P",
+      cliente,
+      producto,
+      proveedor
+    } = pedidoQueryDto    
+
+    if (cliente) {
+      cliente_desde = +cliente
+      cliente_hasta = +cliente
+    }
+
+    if (producto) {
+      producto_desde = +producto
+      producto_hasta = +producto
+    }
+
+    if (proveedor) {
+      proveedor_desde = +proveedor
+      proveedor_hasta = +proveedor
+    }
+
     return this.repo.find({
+      where: {
+        clienteId  : Between(cliente_desde, cliente_hasta),
+        productoId : Between(producto_desde, producto_hasta),
+        proveedorId: Between(proveedor_desde, proveedor_hasta),
+        estado: estado as EstadoPedido
+      },      
+
       relations: ["cliente", "producto", "proveedor"],
       select: {
         cliente:  { id: true, nombre: true },
@@ -31,7 +71,8 @@ export class PedidoService {
         proveedor:{ id: true, nombre: true }
       },
       take: limite,
-      skip: offset
+      skip: offset,
+      order: {[sort]: order}
     })
   }
 
@@ -82,7 +123,11 @@ export class PedidoService {
     pedido.unidades = unidades
     pedido.estado = estado as EstadoPedido
 
-    return await this.repo.save(pedido) 
+    try {
+      return await this.repo.save(pedido)       
+    } catch (error) {
+      this.handleException(error)
+    }
   }
 
   async actualizarPedido(id: number, updatePedidoDto: UpdatePedidoDto) {    
@@ -137,7 +182,7 @@ export class PedidoService {
     }
   }
 
-  private handleException(error: any) {    
+  private handleException(error: any): never {    
     this.logger.error(error)   
     throw new InternalServerErrorException(Message.ERROR_GENERAL)
   }

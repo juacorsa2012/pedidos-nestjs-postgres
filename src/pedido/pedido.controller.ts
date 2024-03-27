@@ -1,26 +1,19 @@
 import { Response } from "express"
-import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Res } from '@nestjs/common'
 import { PedidoService } from './pedido.service'
-import { HttpResponseBadRequest, HttpResponseCreated, HttpResponseOk } from "../utils/response"
-import { PaginacionDto } from "../common/dtos/paginacion.dto"
+import { HttpResponseCreated, HttpResponseOk } from "../utils/response"
 import { CreatePedidoDto } from "./dto/create-pedido.dto"
 import { Message } from "../config/messages"
-import { ClienteService } from "src/cliente/cliente.service"
-import { ProductoService } from "src/producto/producto.service"
-import { ProveedorService } from "src/proveedor/proveedor.service"
 import { UpdatePedidoDto } from "./dto/update-pedido.dto"
+import { PedidoQueryDto } from "./dto/pedido-query.dto"
 
 @Controller("pedidos")
 export class PedidoController {
-  constructor(
-    @Inject(ClienteService) private readonly clienteService: ClienteService,
-    @Inject(ProductoService) private readonly productoService: ProductoService,
-    @Inject(ProveedorService) private readonly proveedorService: ProveedorService,
-    private readonly pedidoService: PedidoService) {}
+  constructor(private readonly pedidoService: PedidoService) {}
 
   @Get()
-  async obtenerClientes(@Res() res: Response, @Query() paginacionDto: PaginacionDto) {
-    const pedidos = await this.pedidoService.obtenerPedidos(paginacionDto)
+  async obtenerClientes(@Res() res: Response, @Query() pedidoQueryDto: PedidoQueryDto) {
+    const pedidos = await this.pedidoService.obtenerPedidos(pedidoQueryDto)
     HttpResponseOk(res, pedidos)
   }
 
