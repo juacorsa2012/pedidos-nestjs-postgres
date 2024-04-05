@@ -1,3 +1,4 @@
+import { AuthModule } from 'src/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { PedidoController } from './pedido.controller';
@@ -10,6 +11,6 @@ import { ProveedorModule } from 'src/proveedor/proveedor.module';
 @Module({
   providers: [PedidoService],
   controllers: [PedidoController],
-  imports: [TypeOrmModule.forFeature([Pedido]), ClienteModule, ProductoModule, ProveedorModule]
+  imports: [TypeOrmModule.forFeature([Pedido]), ClienteModule, ProductoModule, ProveedorModule, AuthModule]
 })
 export class PedidoModule {}

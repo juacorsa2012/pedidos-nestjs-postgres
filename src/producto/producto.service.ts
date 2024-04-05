@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
-import { Producto } from './entities/producto.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { CreateProductoDto } from './dto/create-producto-dto'
-import { PaginacionDto } from 'src/common/dtos/paginacion.dto'
-import { UpdateProductoDto } from './dto/update-producto-dto'
-import { Message } from 'src/config/messages'
-import { Constant } from 'src/config/constants'
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common"
+import { Producto } from "./entities/producto.entity"
+import { InjectRepository } from "@nestjs/typeorm"
+import { Repository } from "typeorm"
+import { CreateProductoDto } from "./dto/create-producto-dto"
+import { PaginacionDto } from "src/common/dtos/paginacion.dto"
+import { UpdateProductoDto } from "./dto/update-producto-dto"
+import { Message } from "src/config/messages"
+import { Constant } from "src/config/constants"
 
 @Injectable()
 export class ProductoService {

@@ -22,11 +22,4 @@ async function bootstrap() {
 bootstrap()
 
 // yarn migration:generate -- database\migrations\create-table-pedidos
-
-// todo: ver tema de los path de todo lo importado y quitar ; cambiar ' por ""
-// todo: actualizar mensajes y constantes en pedidos
-// todo: gestion de usuarios y roles
-// todo: test
-// archivos de barril donde haga falta
-// helmet
-// mejorar el order de los imports
+// todo: helmet

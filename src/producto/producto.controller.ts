@@ -1,26 +1,14 @@
-import { Response } from 'express'
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, Res } from '@nestjs/common';
-import { HttpResponseCreated, HttpResponseOk } from 'src/utils/response';
-import { CreateProductoDto } from './dto/create-producto-dto';
-import { ProductoService } from './producto.service';
-import { Message } from 'src/config/messages';
-import { PaginacionDto } from 'src/common/dtos/paginacion.dto';
-import { UpdateProductoDto } from './dto/update-producto-dto';
-import { Constant } from 'src/config/constants';
+import { Response } from "express"
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, Res } from "@nestjs/common"
+import { HttpResponseCreated, HttpResponseOk } from "src/utils/response"
+import { CreateProductoDto, UpdateProductoDto } from "./dto"
+import { ProductoService } from "./producto.service"
+import { Message } from "../config/messages"
+import { PaginacionDto } from "../common/dtos/paginacion.dto"
 
-@Controller('productos')
+@Controller("productos")
 export class ProductoController {
   constructor(private readonly productoService: ProductoService) {}
-
-  @Get("seed/:n")
-  async seed(@Param("n", ParseIntPipe) n: number) {
-    await this.productoService.seed(n)
-    return {
-      status: Constant.SUCCESS,
-      statusCode: HttpStatus.OK,
-      message: `Se han insertado ${n} productos correctamente!!`
-    }
-  }
 
   @Get()
   async obtenerProductos(@Res() res: Response, @Query() paginacionDto: PaginacionDto) {

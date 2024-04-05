@@ -2,10 +2,9 @@ import { Response } from "express"
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Res } from '@nestjs/common'
 import { PedidoService } from './pedido.service'
 import { HttpResponseCreated, HttpResponseOk } from "../utils/response"
-import { CreatePedidoDto } from "./dto/create-pedido.dto"
+import { CreatePedidoDto, UpdatePedidoDto, PedidoQueryDto } from "./dto"
 import { Message } from "../config/messages"
-import { UpdatePedidoDto } from "./dto/update-pedido.dto"
-import { PedidoQueryDto } from "./dto/pedido-query.dto"
+
 
 @Controller("pedidos")
 export class PedidoController {

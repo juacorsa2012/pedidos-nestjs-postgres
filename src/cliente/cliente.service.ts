@@ -60,26 +60,9 @@ export class ClienteService {
     }
   }
 
-  async seed(n: number) {
-    const clientes: Partial<Cliente>[] = []
-    
-    for (let i = 0; i <= n; i++) {
-      const cliente = { "nombre": `Cliente ` + i }
-      clientes.push(cliente)
-    }    
-
-    try {
-      await this.clienteRepository.delete({})
-      await this.clienteRepository.save(clientes)     
-    }
-    catch (error) {
-      this.handleException(error)  
-    }
-  }
-
   private handleException(error: any): never {
-  if (error.code === "23505")
-    throw new BadRequestException(Message.CLIENTE_YA_EXISTE)
+    if (error.code === "23505")
+      throw new BadRequestException(Message.CLIENTE_YA_EXISTE)
     
     this.logger.error(error)    
     throw new InternalServerErrorException(Message.ERROR_GENERAL)

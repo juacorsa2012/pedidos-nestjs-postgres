@@ -1,6 +1,6 @@
-import { HttpStatus } from '@nestjs/common'
-import { Response } from 'express'
-import { Constant } from 'src/config/constants'
+import { HttpStatus } from "@nestjs/common"
+import { Response } from "express"
+import { Constant } from "src/config/constants"
 
 export const HttpResponseOk = (res: Response, data: any, meta?: any, message: string = "") => {
   return res.status(HttpStatus.OK).json({

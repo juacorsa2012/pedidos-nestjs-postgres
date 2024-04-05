@@ -24,8 +24,17 @@ export const Message = {
   PEDIDO_ACTUALIZADO: "Pedido actualizado con éxito", 
   PEDIDO_BORRADO: "Pedido borrado con éxito", 
 
+  USUARIO_NO_ENCONTRADO: "Usuario no encontrado", 
+  USUARIO_TOKEN_NO_VALIDO: "El token de acceso no es válido o ha caducado", 
+  USUARIO_NO_ACTIVO: "El usuario no está activo, por favor contacte con el administrador de la aplicación", 
+  USUARIO_YA_EXISTE: "El usuario ya existe", 
+  USUARIO_EMAIL_INCORRECTO: "El email no es válido", 
+  USUARIO_PASSWORD_PATRON: "El password debe ser una combinación de letras mayúsculas, minúsculas y números",
+  USUARIO_PASSWORD_LONGITUD_MINIMA: "El password debe ser una combinación de letras mayúsculas, minúsculas y números de al menos 6 caracteres",
+  USUARIO_PASSWORD_LONGITUD_MAXIMA: "El password debe ser una combinación de letras mayúsculas, minúsculas y números de 50 caracteres como máximo",
+  USUARIO_CREDENCIALES_INCORRECTAS: "Las credenciales no son correctas, por favor revise el nombre de usuario y contraseña."
+
 }
 
 
 
-  

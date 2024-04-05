@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
-import { Proveedor } from './entities/proveedor.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { CreateProveedorDto } from './dto/create-proveedor-dto'
-import { PaginacionDto } from 'src/common/dtos/paginacion.dto'
-import { UpdateProveedorDto } from './dto/update-proveedor-dto'
-import { Message } from 'src/config/messages'
-import { Constant } from 'src/config/constants'
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common"
+import { Proveedor } from "./entities/proveedor.entity"
+import { InjectRepository } from "@nestjs/typeorm"
+import { Repository } from "typeorm"
+import { CreateProveedorDto } from "./dto/create-proveedor-dto"
+import { PaginacionDto } from "src/common/dtos/paginacion.dto"
+import { UpdateProveedorDto } from "./dto/update-proveedor-dto"
+import { Message } from "src/config/messages"
+import { Constant } from "src/config/constants"
 
 @Injectable()
 export class ProveedorService {
